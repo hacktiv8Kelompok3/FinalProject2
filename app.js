@@ -9,5 +9,5 @@ app.use(express.json())
 app.use(router)
 
 app.listen(PORT,() => {
-    console.log("testing")
+    console.log("Running on port 3000")
 })
