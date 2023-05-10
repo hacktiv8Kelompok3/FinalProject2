@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const user = require('../controllers/userController')
+const user = require('../controllers/usercontroller')
 
 router.get('/', user.getAllUsers)
 router.put('/:id', user.updateUser)
