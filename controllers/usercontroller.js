@@ -133,7 +133,11 @@ class userController {
                   message: "Data not found!"
                 }
             }
-            res.status(201).json(result)
+            res.status(201).json(
+                {
+                    message: "Data Berhasil Di Hapus"
+                }
+            )
         } catch (error) {
             res.status(error?.code || 500).json(error)
             console.log(error)
