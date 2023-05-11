@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const { comparePassword,hashPassword } = require("../helpers/bcrypt")
-const {generateToken} = require("../helpers/jwt")
+const { generateToken } = require("../helpers/jwt")
 class userController {
     static async getAllUsers(req, res) {
         try {

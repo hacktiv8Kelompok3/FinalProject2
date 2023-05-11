@@ -4,7 +4,7 @@ class photoController {
     static async getAllPhoto(req, res) {
         try {
             const { id } = req.UserData
-
+            
             const data = await Photo.findAll({
                 where: {
                     UserId: id
@@ -32,7 +32,12 @@ class photoController {
             poster_image_text,
             UserId: id
         })
-        console.log(data);
+        if(!data) {
+            throw {
+                code: 404,
+                message: "tidak boleh kosong!!"
+            }
+        }
 
         const response = {
             id: data.id,
