@@ -16,9 +16,37 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Photo.init({
-    title: DataTypes.STRING,
-    caption: DataTypes.TEXT,
-    poster_image_text: DataTypes.TEXT,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "kolom tidak boleh kosong"
+        }
+      }
+    },
+    caption: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "caption tidak boleh kosong"
+        }
+      }
+    },
+    poster_image_text: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "poster email tidak boleh kosong atau harus terisi"
+        },
+        isUrl: {
+          args: true,
+          msg: "URL TIDAK BENAR"
+        }
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
