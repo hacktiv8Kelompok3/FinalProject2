@@ -3,16 +3,16 @@ const { verifyToken } = require("../helpers/jwt")
 
 const authentication = async (req, res, next) => {
   try {
-    const { access_token } = req.headers
+    const { token } = req.headers
 
-    if (!access_token) {
+    if (!token) {
       throw {
         code: 401,
         message: "Token not provided!"
       }
     }
 
-    const decode = verifyToken(access_token)
+    const decode = verifyToken(token)
 
     console.log(decode, "<< decode token");
 
