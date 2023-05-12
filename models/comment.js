@@ -11,12 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User, { foreignKey: "UserId" });
       this.belongsTo(models.Photo, { foreignKey: "PhotoId" });
+      this.belongsTo(models.User, { foreignKey: "UserId" });
     }
   }
   Comment.init({
-    comment: DataTypes.TEXT,
+    comment: {
+      type : DataTypes.TEXT,
+      validate : {
+        notEmpty : {
+          args: true,
+          msg: "comment tidak boleh kosong"
+        }
+      }
+    },
     UserId: DataTypes.INTEGER,
     PhotoId: DataTypes.INTEGER
   }, {
