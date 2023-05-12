@@ -43,8 +43,15 @@ class userController {
             }
             res.status(200).send(response)
         } catch (error) {
-            res.status(error?.code || 500).json(error)
-            console.log(error)
+            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+                const validasiErorr = {};
+                error.errors.map((er) => {
+                    validasiErorr[er.path] = er.message;
+                });
+                return res.status(400).json({"error":validasiErorr});
+            }else{
+                res.status(error?.code || 500).json(error)
+            }
         }
     }
 
@@ -81,8 +88,7 @@ class userController {
                 username: user.username
             }
             const token = generateToken(response)
-            console.log(token, '<< token')
-            res.status(200).json(response)
+            res.status(200).json({token})
         } catch (error) {
             res.status(error?.code || 500).json(error)
             console.log(error)
@@ -113,9 +119,18 @@ class userController {
                 where: {
                     id
                 },
-                retruning:true
+                retruning: true,
+                individualHooks: true
             })
-            res.status(201).json(result)
+            const userView = {
+                email:result[1][0].email,
+                full_name: result[1][0].full_name,
+                username: result[1][0].username,
+                profile_image_url: result[1][0].profile_image_url,
+                age: result[1][0].age,
+                phone_number:result[1][0].phone_number
+            }
+            res.status(201).json(userView)
         } catch (error) {
             res.status(error?.code || 500).json(error)
         }
@@ -133,7 +148,7 @@ class userController {
                   message: "Data not found!"
                 }
             }
-            res.status(201).json()
+            res.status(201).json({message:`Delete id ${id} success!`})
         } catch (error) {
             res.status(error?.code || 500).json(error)
             console.log(error)
