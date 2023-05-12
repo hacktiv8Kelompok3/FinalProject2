@@ -17,21 +17,100 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    full_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    username: DataTypes.STRING,
-    password: {
+    full_name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
-          msg:"password is required"
+          msg: "Full name can't be empty!"
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg:"Format email not valid!"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Email can't be empty!"
+        },
+      },
+      unique: {
+        args: true,
+        msg: "Email already use!"
+      }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Username can't be empty"
+        }
+      },
+      unique: {
+        args: true,
+        msg: "Username already use!"
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull:false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg:"Password can't be empty"
         }
       }
     }, 
-    profile_image_url: DataTypes.TEXT,
-    age: DataTypes.INTEGER,
-    phone_number: DataTypes.INTEGER
+    profile_image_url: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg:"Url can't be empty"
+        },
+        isUrl: {
+          args: true,
+          msg:"Format url not valid!"
+        }
+      }
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg:"Age can't be empty"
+        },
+        isNumeric: {
+          args: true,
+          msg:"Age must numeric"
+        }
+      }
+    },
+    phone_number: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg:"Phone Number  can't be empty"
+        },
+        isNumeric: {
+          args: true,
+          msg:"Phone number must be a number!"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
