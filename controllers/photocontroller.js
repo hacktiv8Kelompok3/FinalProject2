@@ -16,12 +16,6 @@ class photoController {
                     }
                 ]
             })
-            if(!data) {
-                throw {
-                    code: 404,
-                    message: "data not found"
-                }
-            }
 
             res.status(200).json(data)
         } catch (error) {
