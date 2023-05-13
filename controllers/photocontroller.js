@@ -1,4 +1,4 @@
-const { Photo, User } = require("../models")
+const { Photo, User,Comment } = require("../models")
 
 class photoController {
     static async getAllPhoto(req, res) {
@@ -12,7 +12,13 @@ class photoController {
                 }, 
                 include: [
                     {
-                        model: User
+                        model: User,
+                        attributes: ['id', 'username', 'profile_image_url'],
+                    },
+                    {
+                        model: Comment,
+                        attributes: ['comment'],
+                        include: [{ model: User, attributes: ['username'] }]
                     }
                 ]
             })
@@ -53,10 +59,19 @@ class photoController {
             poster_image_text: data.poster_image_text,
             UserId: id
         }
+            
 
         res.status(200).send(response)
         } catch (error) {
-            res.status(400).send(error)
+            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+                const validasiErorr = {};
+                error.errors.map((er) => {
+                    validasiErorr[er.path] = er.message;
+                });
+                return res.status(400).json({"error":validasiErorr});
+            }else{
+                res.status(error?.code || 500).json(error)
+            }
         }
     }
 
@@ -78,7 +93,7 @@ class photoController {
                 }
             }
 
-            res.status(200).json(data)
+            res.status(200).json({message:`Delete photo Id ${id} success!`})
         } catch (error) {
             res.status(404).json(error)
             console.log(error);
@@ -98,15 +113,25 @@ class photoController {
             const data = await Photo.update({
                 title,
                 caption,
-                poster_image_text
+                poster_image_text,
+                updated_at: new Date()
             }, {
                 where: {
                     id
                 }, 
                 returning: true
             })
+            const userView = {
+                id:data[1][0].id,
+                title: data[1][0].title,
+                caption: data[1][0].caption,
+                poster_image_text: data[1][0].poster_image_text,
+                UserId: data[1][0].UserId,
+                createdAt: data[1][0].createdAt,
+                updatedAt: data[1][0].updatedAt
+            }
 
-            res.status(200).json(data)
+            res.status(200).json({"photo":userView})
         } catch (error) {
             res.status(400).json(error)
         }
