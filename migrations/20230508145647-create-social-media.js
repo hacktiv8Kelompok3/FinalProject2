@@ -10,9 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       social_media_url: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       createdAt: {

@@ -47,7 +47,15 @@ class socialmediaController{
 
             res.status(200).json(response)
         } catch (error) {
-            res.status(400).json(error)
+            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+                const validasiErorr = {};
+                error.errors.map((er) => {
+                    validasiErorr[er.path] = er.message;
+                });
+                return res.status(400).json({"error":validasiErorr});
+            }else{
+                res.status(error?.code || 500).json(error)
+            }
         }
     }
 
@@ -74,10 +82,25 @@ class socialmediaController{
                     message: "Data tidak di temukan"
                 }
             }
-
-            res.status(200).json(data) 
+            const userView = {
+                id:data[1][0].id,
+                name: data[1][0].name,
+                social_media_url: data[1][0].social_media_url,
+                UserId: data[1][0].UserId,
+                createdAt: data[1][0].createdAt,
+                updatedAt: data[1][0].updatedAt
+            }
+            res.status(200).json({"social_media":userView}) 
         } catch (error) {
-            res.status(400).json(error)
+            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+                const validasiErorr = {};
+                error.errors.map((er) => {
+                    validasiErorr[er.path] = er.message;
+                });
+                return res.status(400).json({"error":validasiErorr});
+            }else{
+                res.status(error?.code || 500).json(error)
+            }
         }
     }
 
