@@ -25,8 +25,19 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    UserId: DataTypes.INTEGER,
-    PhotoId: DataTypes.INTEGER
+    UserId: {
+      type: DataTypes.INTEGER,
+
+    },
+    PhotoId: {
+      type:DataTypes.INTEGER,
+      validate: {
+        notEmpty : {
+          args: true,
+          msg: "PhotoId tidak boleh kosong"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Comment',
