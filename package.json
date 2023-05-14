@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"npm install",
+    "build": "node install",
     "start": "npx sequelize db:migrate && npx sequelize db:seed:all",
-    "dev":"node app.js",
+    "dev": "node app.js",
     "start:production": "npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "repository": {
