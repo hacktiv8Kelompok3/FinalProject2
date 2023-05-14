@@ -18,13 +18,13 @@ const config = {
     port: process.env.DB_PORT
   },
   production: {
-    username: process.env.DB_USERNAME_PROD,
-    password: process.env.DB_PASSWORD_PROD,
-    database: process.env.DB_NAME_PROD,
-    host: process.env.DB_HOST_PROD,
-    dialect: "postgres",
-    port: process.env.DB_PORT_PROD
-  }
+    username: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    dialect: "postgres"
+}
 }
 
 module.exports = config
