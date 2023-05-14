@@ -1,8 +1,8 @@
 {
   "name": "myGram",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "app my gram",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node install",
